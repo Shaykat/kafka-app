@@ -1,0 +1,11 @@
+FROM python:3.9-slim
+
+
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+
+WORKDIR /app
+COPY kafka_client.py /app/kafka_client.py
+COPY kafka_admin.py /app/kafka_admin.py
+
+ENTRYPOINT [ "python3", "/app/kafka_admin.py" ]

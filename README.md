@@ -7,8 +7,10 @@ This is very simple kafka project where covered the following things
 
 ** Here I only used the single partition inside the topic to keep it simple. I will include that in the next release.
 
-## Pre-requirement
-You need to have docker desktop installed in your desktop
+## ✅ Pre-requirement 
+You need to have the following things installed in your desktop
+- Docker CLI
+- Docker Composer
 
 ## :computer: Setup Docker & Local
 - ```git clone git@github.com:Shaykat/kafka-app.git``` Clone the repository

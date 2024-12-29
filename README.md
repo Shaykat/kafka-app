@@ -7,10 +7,10 @@ This is very simple kafka project where covered the following things
 
 ** Here I only used the single partition inside the topic to keep it simple. I will include that in the next release.
 
-# Pre-requirement
+## Pre-requirement
 You need to have docker desktop installed in your desktop
 
-# :computer: Setup Docker & Local
+## :computer: Setup Docker & Local
 - ```git clone git@github.com:Shaykat/kafka-app.git``` Clone the repository
 - Navigate to the kafka-app directory
 - Run the ```docker compose up -d``` It will up the kafka service with zoopkeer 
@@ -21,7 +21,7 @@ You need to have docker desktop installed in your desktop
 
 Now whatever messages are published to the topic will be available in the consumber console. 
 
-# :computer: Setup Full Docker 
+## :computer: Setup Full Docker 
 - ```git clone git@github.com:Shaykat/kafka-app.git``` Clone the repository
 - Navigate to the kafka-app directory
 - Run the ```docker compose up -d``` It will up the kafka service with zoopkeer 
@@ -32,7 +32,7 @@ Now whatever messages are published to the topic will be available in the consum
         docker build -f Dockerfileconsumer -t kafka-python-consumer
     ```
 
-# :boom: Run the Pipeline
+## :boom: Run the Pipeline
 - Create Topic ```docker run -it kafka-python-admin``` This will create the kafka-topic.
 - Run Kafka Consumer so it listens for Messages to be produced in the Topic. ```docker run -it kafka-python-consumer```
 - From Another terminal Run Producer so it produces messages to the Topic. ```docker run -it kafka-python-producer```

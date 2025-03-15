@@ -38,7 +38,7 @@ class WikimediaKafkaProducer:
 
     async def produce_changes(self):
         try:
-            async with self.session.get("https://stream.wikimedia.org/v2/stream/recentchange") as resp:
+            async with self.session.get(self.event_source_url) as resp:
                 async for line in resp.content:
                     line = line.strip() #remove leading/trailing whitespace
                     if line.startswith(b'event:'): #ignore event headers

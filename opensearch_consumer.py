@@ -61,6 +61,22 @@ class KafkaToOpenSearch:
         self.bootstrap_servers = bootstrap_servers
         self.topic = topic
         self.indexer = opensearch_indexer
+    
+    def extract_id(json_string):
+        """Extracts the 'id' field from a JSON string, handling potential errors."""
+        try:
+            data = json.loads(json_string)
+            if isinstance(data, dict) and "meta" in data and isinstance(data["meta"], dict) and "id" in data["meta"]:
+                return data["meta"]["id"]
+            else:
+                logger.warning("JSON structure does not contain 'meta' or 'id': %s", json_string)
+                return None
+        except json.JSONDecodeError as e:
+            logger.error("Invalid JSON: %s, Error: %s", json_string, e)
+            return None 
+        except Exception as e:
+            logger.exception("An unexpected error occurred:", exc_info=True)
+            return None
 
     async def consume_and_index(self):
         consumer = AIOKafkaConsumer(
@@ -75,7 +91,7 @@ class KafkaToOpenSearch:
                 async for msg in consumer:
                     try:
                         if 'meta' in msg.value and 'id' in msg.value['meta']:
-                            doc_id = msg.value['meta']['id']
+                            doc_id = self.extract_id(msg.value)
                             await self.indexer.index_document(doc_id, msg.value)
                         else:
                             logger.warning(f"Message does not contain id: {msg.value}")

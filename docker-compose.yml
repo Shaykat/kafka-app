@@ -6,6 +6,7 @@ services:
     container_name: zookeeper_service
     ports:
       - "2181:2181"  
+      
   kafka:
     image: confluentinc/cp-kafka
     container_name: kafka_service
@@ -15,3 +16,43 @@ services:
       KAFKA_ZOOKEEPER_CONNECT: localhost:2181 # use 
       KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://localhost:9092
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+
+  opensearch:
+    image: opensearchproject/opensearch:1.2.4
+    environment:
+      discovery.type: single-node
+      plugins.security.disabled: "true" # disable https and logins
+      compatibility.override_main_response_version: "true"
+    ports:
+      - 9200:9200
+      - 9600:9600 # required for Performance Analyzer
+
+  # console at http://localhost:5601/app/dev_tools#/console
+  opensearch-dashboards:
+    image: opensearchproject/opensearch-dashboards:1.2.0
+    ports:
+      - 5601:5601
+    environment:
+      OPENSEARCH_HOSTS: '["http://opensearch:9200"]'
+      DISABLE_SECURITY_DASHBOARDS_PLUGIN: "true"
+
+  redis:
+    image: redis:6.0.7
+    container_name: redis
+    restart: always
+    volumes:
+      - redis_volume_data:/data
+    ports:
+      - 6379:6379
+      
+  redis_insight:
+    image: redislabs/redisinsight:1.14.0
+    container_name: redis_insight
+    restart: always
+    ports:
+      - 8001:8001
+    volumes:
+      - redis_insight_volume_data:/db
+volumes:
+  redis_volume_data:
+  redis_insight_volume_data:

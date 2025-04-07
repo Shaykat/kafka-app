@@ -5,6 +5,6 @@ COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
 WORKDIR /app
-COPY kafka_producer.py /app/kafka_producer.py
+COPY kafka_producer.py /app/wikimedia_change_idempotent_producer.py
 
-ENTRYPOINT [ "python3", "/app/kafka_producer.py" ]
+ENTRYPOINT [ "python3", "/app/wikimedia_change_idempotent_producer.py" ]

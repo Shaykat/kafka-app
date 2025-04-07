@@ -1,1 +1,6 @@
+aiohttp
+asyncio
+backoff
+redis
 kafka-python
+confluent_kafka
